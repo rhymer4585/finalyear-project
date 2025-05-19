@@ -3,16 +3,27 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+const userRoutes = require('./routes/userRoutes');
+
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+// Routes
+app.use('/api/users', userRoutes);
 
-// Use only user routes here
-app.use('/api/users', require('./routes/userRoutes'));
+// PORT
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => console.log('Server started on port 5000'));
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => {
+    console.log('✅ MongoDB connected');
+    app.listen(PORT, () => console.log(`🚀 Server started on port ${PORT}`));
+  })
+  .catch(err => console.error('❌ MongoDB connection error:', err));
