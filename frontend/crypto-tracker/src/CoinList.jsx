@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import './CoinList.css';
 
-function CoinList() {
-  const [coins, setCoins] = useState([]);
-
-  useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=10')
-      .then(res => res.json())
-      .then(data => setCoins(data));
-  }, []);
-
-  const saveCoin = async (coin) => {
-    const response = await fetch('http://localhost:5000/api/coins/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(coin),
-    });
-
-    if (response.ok) alert('Coin saved to DB');
-    else alert('Failed to save coin');
-  };
-
+function CoinList({ coins }) {
   return (
-    <div>
-      <h2>Top 10 Coins</h2>
-      <ul>
-        {coins.map(coin => (
-          <li key={coin.id}>
-            {coin.name} (${coin.current_price})
-            <button onClick={() => saveCoin(coin)}>Save</button>
-          </li>
-        ))}
-      </ul>
+    <div className="coin-list">
+      {coins.map(coin => (
+        <a
+          key={coin.id}
+          href={`coin-details.html?id=${coin.id}`}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <div className="coin" style={{ cursor: 'pointer' }}>
+            <div className="coin-left">
+              <img src={coin.image} alt={coin.name} width="30" />
+              <div>
+                <div className="coin-name">{coin.name}</div>
+                <div className="coin-symbol">{coin.symbol.toUpperCase()}</div>
+              </div>
+            </div>
+            <div className="coin-right">
+              <div className="coin-price">${coin.current_price.toFixed(2)}</div>
+            </div>
+          </div>
+        </a>
+      ))}
     </div>
   );
 }

@@ -1,0 +1,55 @@
+/* Make the whole page and root fill screen and white */
+body, html, #root {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: white;  /* whole background white */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* White box covering entire screen */
+  .container {
+    background: white;
+    width: 100vw;   /* full viewport width */
+    height: 100vh;  /* full viewport height */
+    display: flex;
+    flex-direction: column; /* stack items vertically */
+    justify-content: center; /* center vertically */
+    align-items: center;     /* center horizontally */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Title styling */
+  h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #222;
+    letter-spacing: 1.2px;
+    text-align: center;
+  }
+  
+  /* Image styling */
+  img {
+    margin-bottom: 20px;
+    max-width: 150px;
+  }
+  
+  /* Paragraph styling */
+  p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 8px 0;
+    color: #444;
+    text-align: center;
+    max-width: 400px;
+  }
+  li{
+    list-style-type: none;
+    font-size: 25PX;
+    color: rgb(42, 249, 104);
+  }

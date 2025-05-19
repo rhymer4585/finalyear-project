@@ -1,0 +1,39 @@
+/* CoinList.css */
+
+.coin-list-container {
+  width: 100%;
+  max-width: 600px;
+}
+
+.coin-list-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  text-align: center;
+}
+
+.coin-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.coin-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.coin-item img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.coin-item span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+}

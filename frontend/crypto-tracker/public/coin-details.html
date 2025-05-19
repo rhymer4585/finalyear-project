@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coin Details</title>
+  <style>
+    /* Make body fill viewport and center its contents */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fafafa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* The centered details card */
+    .coin-details {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+
+    .coin-details h2 {
+      margin-top: 0;
+      color: #00bfa5;
+      font-size: 1.8rem;
+    }
+
+    .coin-details img {
+      margin: 20px 0;
+      width: 100px;
+      height: 100px;
+    }
+
+    .coin-details p {
+      margin: 10px 0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    /* Back link at top-left of the card */
+    .back {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      text-decoration: none;
+      color: #00bfa5;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .back:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="coin-details" id="coin-detail">
+    <a href="/" class="back">← Back to list</a>
+    Loading…
+  </div>
+
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const coinId = params.get('id');
+      const container = document.getElementById('coin-detail');
+
+      if (!coinId) {
+        container.innerHTML = '<p>No coin ID provided.</p>';
+        return;
+      }
+
+      fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`)
+        .then(res => {
+          if (!res.ok) throw new Error('Network response was not ok');
+          return res.json();
+        })
+        .then(coin => {
+          container.innerHTML = `
+            <a href="/" class="back">← Back to list</a>
+            <h2>${coin.name} (${coin.symbol.toUpperCase()})</h2>
+            <img src="${coin.image.large}" alt="${coin.name}">
+            <p><strong>Current Price:</strong> $${coin.market_data.current_price.usd.toLocaleString()}</p>
+            <p><strong>Market Cap:</strong> $${coin.market_data.market_cap.usd.toLocaleString()}</p>
+            <p><strong>24h High:</strong> $${coin.market_data.high_24h.usd.toLocaleString()}</p>
+            <p><strong>24h Low:</strong> $${coin.market_data.low_24h.usd.toLocaleString()}</p>
+            <p>${coin.description.en.split('. ')[0] || ''}.</p>
+          `;
+        })
+        .catch(err => {
+          container.innerHTML = '<p>Failed to load coin details.</p>';
+          console.error(err);
+        });
+    })();
+  </script>
+</body>
+</html>
